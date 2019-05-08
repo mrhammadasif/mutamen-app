@@ -1,44 +1,23 @@
 <template>
   <ion-app id="app">
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>{{ currentRouteName }}</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <app-header />
     <ion-content>
-      <ion-card>
-        <div class="nav">
-          <router-link to="/">
-            Home
-          </router-link>|
-          <router-link to="/about">
-            About
-          </router-link>
-        </div>
-        <router-view />
-      </ion-card>
+      <router-view />
     </ion-content>
   </ion-app>
 </template>
 
 <script lang="ts">
 import {Component, Vue, Prop} from "vue-property-decorator"
+import AppHeader from "@/components/AppHeader.vue"
 
-@Component
+@Component({
+  components: {
+    "app-header": AppHeader
+  }
+})
 export default class App extends Vue {
-  @Prop()
-  private myName: string
 
-  private youtName: string
-
-  get currentRouteName () {
-    //asdsd
-    return this.$route.name
-  }
-
-  public doThis () {
-
-  }
 }
 </script>
 
@@ -59,5 +38,8 @@ export default class App extends Vue {
       color: #42b983;
     }
   }
+}
+.fas ~ *{
+  padding-left: 3px;
 }
 </style>
