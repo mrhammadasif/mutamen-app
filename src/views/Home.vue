@@ -24,6 +24,7 @@
 import {Component, Vue} from "vue-property-decorator"
 import FavouriteListItem from "@/components/FavouriteListItem.vue"
 import axios from "axios"
+import {sleep} from "@/utils"
 
 @Component({
   components: {
@@ -34,13 +35,14 @@ export default class Home extends Vue {
   private favCars = []
 
   async mounted () {
-    const loader = await this.$ionic.loadingController.create({
-      message: "Loading Favourites..."
+    await sleep(100)
+    const loader: HTMLIonLoadingElement = await this.$ionic.loadingController.create({
+      message: "Loading favourite ..."
     })
     loader.present()
     const {data: {data: favCars}} = await axios.get("?page=1")
     this.favCars = favCars
-    loader.dismiss()
+    loader!.dismiss()
   }
 
 }
