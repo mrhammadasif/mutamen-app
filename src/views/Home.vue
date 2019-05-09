@@ -34,8 +34,13 @@ export default class Home extends Vue {
   private favCars = []
 
   async mounted () {
+    const loader = await this.$ionic.loadingController.create({
+      message: "Loading Favourites..."
+    })
+    loader.present()
     const {data: {data: favCars}} = await axios.get("?page=1")
     this.favCars = favCars
+    loader.dismiss()
   }
 
 }
