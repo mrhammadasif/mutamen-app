@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-header :reload-cars="loadCars" />
     <ion-row>
       <ion-col
         v-for="car in favCars"
@@ -23,12 +24,14 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator"
 import FavouriteListItem from "@/components/FavouriteListItem.vue"
+import AppHeader from "@/components/AppHeader.vue"
 import axios from "axios"
 import {sleep} from "@/utils"
 
 @Component({
   components: {
-    "app-fav-item": FavouriteListItem
+    "app-fav-item": FavouriteListItem,
+    "app-header": AppHeader
   }
 })
 export default class Home extends Vue {
@@ -36,13 +39,18 @@ export default class Home extends Vue {
 
   async mounted () {
     await sleep(100)
-    const loader: HTMLIonLoadingElement = await this.$ionic.loadingController.create({
+    await this.loadCars()
+  }
+
+  async loadCars () {
+    const loader = await this.$ionic.loadingController.create({
       message: "Loading favourite ..."
     })
     loader.present()
     const {data: {data: favCars}} = await axios.get("?page=1")
     this.favCars = favCars
-    loader!.dismiss()
+    loader.dismiss()
+
   }
 
 }

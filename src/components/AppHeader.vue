@@ -25,11 +25,14 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from "vue-property-decorator"
+import {Vue, Component, Prop} from "vue-property-decorator"
 import FavModal from "@/components/FavModal.vue"
+
 import axios from "axios"
 @Component
 export default class extends Vue{
+
+  @Prop() reloadCars!: Function;
 
   async openReportFavCars () {
 
@@ -42,7 +45,10 @@ export default class extends Vue{
     const {data} = await modal.onDidDismiss()
     // we are calling new fav model from here
     // eslint-disable-next-line no-console
-    console.log(data)
+    if (data === "inserted") {
+      this.reloadCars()
+    }
+
   }
 }
 </script>
